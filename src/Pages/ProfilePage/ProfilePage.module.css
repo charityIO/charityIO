@@ -1,0 +1,157 @@
+.yourItems {
+	margin-top: 30px;
+}
+
+.profileSectionWrapper{
+	position: relative;
+}
+
+.profileSection {
+	min-height: 330px;
+	display: grid;
+	grid-template-columns: 250px 1fr;
+	grid-gap: 30px;
+	background-color: white;
+	box-shadow: 1px 1px 7px lightgray;
+}
+
+.profileSection img {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+}
+
+.profileSection .profileImg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profileSection .profileDesc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding:0 20px;
+}
+
+.profileSection .name {
+	font-size: 48px;
+}
+
+.profileInfoSentence {
+	display: flex;
+	align-items: center;
+	margin: 5px 0;
+}
+
+.profileInfoSentence > span {
+	margin-left: 10px;
+}
+
+@media (max-width: 578px) {
+	.profileSection {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding:20px;
+	}
+	.profileDesc {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.profileSection .name {
+		font-size: 36px;
+	}
+}
+
+.floatingIcon{
+	position: absolute !important;
+	top:5px;
+	right:5px;
+}
+
+
+.profileImageWrapper{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profileImageWrapper #image{
+	display: none;
+}
+
+.profileImageWrapper label{
+	cursor: pointer;
+}
+
+.profileImageWrapper label>img{
+	width:150px;
+	height: 150px;
+	border-radius:50%;
+}
+
+.profileImageWrapper .fileWrapper>img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.profileImageWrapper .absolute{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 1;
+	width:100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.profileImageWrapper .imageWrapper:hover .absolute{
+	visibility: visible;
+	opacity: 1;
+}
+
+.formInput{
+	padding:5px;
+	border:none;
+	border-bottom:2px solid lightgray;
+	transition:0.4s;
+	font-size: 14px;
+}
+
+.formInput + .formInput{
+	margin-top:10px;
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.formButton{
+	margin-top:10px;
+	padding:10px;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+@media(max-width: 340px){
+	.profileSection .name{
+		font-size: 28px;
+	}
+
+	.profileSection .profileInfoSentence{
+		font-size: 14px;
+	}
+
+	.noEventsPara{
+		font-size: 14px;
+	}
+}

@@ -1,0 +1,59 @@
+.heroWrapper{
+	height:calc(100vh - 70px);
+	background: url('./hero-cover.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.heroWrapper h1{
+	font-size: 36px;
+	text-align: center;
+}
+
+.contentWrapper{
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	align-items: flex-end;
+	flex-direction: column;
+	color:white;
+}
+
+.featuresSection{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding:50px 0;
+}
+
+.cardGrid{
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+	grid-gap: 20px;
+}
+
+.cardGrid>div{
+	padding:30px;
+	border-radius: 0 20px 0 20px;
+	box-shadow: 3px 3px 7px lightgray;
+	cursor: pointer;
+}
+
+.lineWrapper{
+	display: flex;
+	justify-content: center;
+	margin:5px 0 20px 0;
+}
+
+.line{
+	height: 4px;
+	border-radius: 4px 4px 0 0;
+	width:250px;
+	background-color: var(--primary);
+}
+
+.servicesHeading{
+	text-align: center;
+	margin:0;
+}

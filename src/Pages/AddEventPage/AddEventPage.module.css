@@ -1,0 +1,137 @@
+.addEvent{
+	margin:50px 0;
+	height: 700px;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 3px 3px 7px lightgray;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 700px;
+}
+
+.addEvent .formWrapper{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #f4f4f4;
+	padding:20px;
+}
+
+.addEvent .form{
+	height: 600px;
+	width: 1020px;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 3px 3px 7px lightgray;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.addEvent .formFields{
+	display: flex;
+	align-items: center;
+	padding:0 50px;
+}
+
+.addEvent .formFields h1{
+	font-size: 48px;
+}
+
+.addEvent .formFields>div>div{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.addEvent .formFields>div{
+	width: 100%;
+	padding-bottom: 20px;
+}
+
+.addEvent .formInput{
+	margin:5px 0 !important;
+	width:100%;
+}
+
+.addEvent .formButton{
+	margin:15px 0 !important;
+}
+
+.addEvent .formImage .imageDisplay{
+	width:100%;
+	height: 100%;
+}
+
+.addEvent .switchWrapper{
+	display: flex;
+	align-items: center;
+	margin:5px 0 0 -10px;
+}
+
+.addEvent .switchWrapper>div{
+	font-size: 14px;
+}
+
+.addEvent .formImage{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.addEvent #image{
+	display: none;
+}
+
+.addEvent label{
+	cursor: pointer;
+}
+
+.addEvent label>img{
+	width:250px;
+	height: 250px;
+	border-radius:8px;
+}
+
+.addEvent .fileWrapper>img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.addEvent .absolute{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 1;
+	width:100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.addEvent .imageWrapper:hover .absolute{
+	visibility: visible;
+	opacity: 1;
+}
+
+.select{
+	margin:15px 0 !important;
+}
+
+@media (max-width: 926px){
+	.addEvent .formFields>div>div{
+		width:100%;
+	}	
+}
+
+@media (max-width: 600px){
+	.addEvent{
+		display:block;
+		height: auto;
+		padding:30px 0 20px 0;
+	}	
+}

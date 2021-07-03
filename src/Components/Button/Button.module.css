@@ -1,0 +1,30 @@
+.button{
+	border:none;
+	border-radius: 8px;
+	padding:20px 10px;
+	cursor: pointer;
+	min-width: 120px;
+	font-size:16px;
+}
+
+@keyframes emerge {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.03);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.buttonAnimation {
+	animation: emerge;
+	animation-duration: 0.4s;
+}
+
+
+.button+.button{
+	margin-left: 10px;
+}

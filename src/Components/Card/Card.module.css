@@ -1,0 +1,173 @@
+.card{
+	min-height: 380px;
+	border-radius: 10px;
+	box-shadow: 3px 3px 7px lightgray;
+	position: relative;
+	transition: 0.6s;
+	cursor: pointer;
+	background-color: white;
+}
+
+.card:hover{
+	transform: translateY(-3px);
+}
+
+.card .cardImg{
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	padding:20px;
+}
+
+.card img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.card .cardDesc{
+	padding:20px 20px 10px 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height:calc(100% - 200px);
+	position: relative;
+	font-size: 14px;
+}
+
+.card .cardInfo{
+	width:85%;
+}
+
+.card .cardName{
+	font-size: 18px;
+}
+
+.card .cardFooter{
+	display: flex;
+	justify-content: space-between;
+	font-size: 12px;
+	color:#888;
+}
+
+.card .icon{
+	position: absolute;
+}
+
+.card .arrow{
+	top:10px;
+	right:5px;
+}
+
+.card .edit,.card .add{
+	top:45px;
+	right:5px;
+}
+
+.card .delete{
+	top:90px;
+	right:5px;
+}
+
+.card .deleteIcon{
+	color:red;
+}
+
+.card .addIcon{
+	color:#1976d2;
+}
+
+.card .category{
+	position: absolute;
+	top:0;
+	left:0;
+	background-color: blue;
+	color:white;
+	padding:4px;
+	font-size: 14px;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.numberOfVolunteersRequired{
+	position: absolute;
+	height:30px;
+	width:30px;
+	border-radius: 50%;
+	top:10px;
+	right:15px;
+	background-color: purple;
+	color:white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.numberOfVolunteersFull{
+	position: absolute;
+	height:30px;
+	border-radius: 20px;
+	padding:0 10px;
+	top:10px;
+	right:15px;
+	background-color: purple;
+	color:white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.volunteerWrapper{
+	display: flex;
+	width:100%;
+	flex-wrap: wrap;
+}
+
+.volunteer{
+	padding:5px;
+	border-radius: 10px;
+	background-color: purple;
+	color:white;
+	font-size: 11px;
+}
+
+.volunteer+.volunteer{
+	margin-left: 10px;
+}
+
+.btn{
+	border-radius: 4px;
+	min-width: 100px;
+	height: 50px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.btn+.btn{
+	margin-left: 10px;
+}
+
+.deleteBtn{
+	color:white;
+	background-color: red;
+	border:none;
+}
+
+.cancelBtn{
+	color:black;
+	background-color: white;
+	border:1px solid black;
+}
+
+.sendBtn{
+	color:white;
+	background-color: #28a745;
+	border:none;
+}
+
+.btnWrapper{
+	display: flex;
+	justify-content: center;
+	margin-top:20px;
+}

@@ -1,0 +1,35 @@
+.about{
+	padding:50px;
+	border-radius: 20px 0 20px 0;
+	box-shadow: 3px 3px 7px lightgray;
+}
+
+.about h1{
+	font-size: 36px;
+	margin:10px 0;
+}
+
+.about p{
+	font-size: 18px;
+}
+
+.heroWrapper{
+	height:calc(100vh - 70px);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.contentWrapper{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	height: 100%;
+	color:black;
+}
+
+.contentWrapper>div{
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-direction: column;
+}

@@ -1,0 +1,11 @@
+.layout{
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.layoutContainer{
+	flex:1;
+	padding:30px 0;
+}

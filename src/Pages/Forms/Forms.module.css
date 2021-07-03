@@ -1,0 +1,149 @@
+.formWrapper{
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #f4f4f4;
+	padding:20px 0;
+}
+
+.form{
+	height: 600px;
+	width: 1020px;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 3px 3px 7px lightgray;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: 600px;
+}
+
+.leftForm{
+	grid-template-columns: 1fr 2fr;
+}
+
+.formFields{
+	display: flex;
+	align-items: center;
+	padding:0 50px;
+}
+
+.formFields h1{
+	font-size: 48px;
+}
+
+.formFields>div{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width:100%;
+}
+
+.formInput{
+	margin:5px 0 !important;
+	width:100%;
+}
+
+.formButton{
+	margin:15px 0 !important;
+}
+
+.form img{
+	width:100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+.formRedirectionLine{
+	margin-top: 0;
+	font-weight: 300;
+}
+
+.profileImageWrapper{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profileImageWrapper #image{
+	display: none;
+}
+
+.profileImageWrapper label{
+	cursor: pointer;
+}
+
+.profileImageWrapper label>img{
+	width:150px;
+	height: 150px;
+	border-radius:50%;
+}
+
+.profileImageWrapper .fileWrapper>img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.profileImageWrapper .absolute{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 1;
+	width:100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.profileImageWrapper .imageWrapper:hover .absolute{
+	visibility: visible;
+	opacity: 1;
+}
+
+.submitBtn:disabled{
+	cursor: not-allowed;
+}
+
+.formImage>img{
+	height:100%;
+	width:100%;
+}
+
+.swipeableViewsDiv{
+	overflow: visible !important;
+}
+
+@media(max-width: 782px){
+	.form{
+		display: block;
+		padding:50px 0;
+		height:auto;
+	}
+
+	.formFields{
+		width:100%;
+	}
+
+	.formImage{
+		display: none;
+	}
+
+	.formWrapper{
+		height:auto;
+	}
+
+	.leftForm{
+		display: flex;
+		align-items: center;
+		height:100%;
+	}
+
+	.signInWrapper{
+		height:100vh;
+	}
+}

@@ -1,0 +1,140 @@
+.navbar{
+	background: var(--primary);
+	height: 70px;
+	font-size: 14px;
+	color: white;
+	position: relative;
+}
+
+.navbar .navWrapper{
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar .nav{
+	display: flex;
+}
+
+.navbar .nav>div{
+	cursor: pointer;
+}
+
+.navbar .nav>div>a{
+	display: flex;
+	align-items: center;
+}
+
+.navbar .nav>div>a>p{
+	margin-left:5px;
+}
+
+.navbar .nav>div+div{
+	margin-left:30px;
+}
+
+.navbar .logout, .menuItem{
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.navbar a{
+	text-decoration: none;
+	color:white;
+}
+
+.navbar .hamburger{
+	display: none;
+}
+
+.navbar .hamburger:hover{
+	background-color: #444;
+}
+
+.navbar .menuIcon{
+	color:white;
+}
+
+.navbar .sidebar{
+	width:200px;
+	height:calc(100vh - 70px);
+	position: absolute;
+	top:70px;
+	right:-250px;
+	display: none;
+	align-items: center;
+	flex-direction: column;
+	background-color: var(--primary);
+	transition:0.4s;
+	z-index: 999;
+}
+
+.navbar .sidebarOpen{
+	right:0;
+}
+
+.navbar .sidebar>div>div{
+	margin-top:25px;
+}
+
+.navbar .sidebar>div>div>a{
+	display: flex;
+}
+
+.navbar .sidebar>div>div>a>p{
+	margin-left: 5px;
+}
+
+.navbar .profileImage{
+	width:24px;
+	height:24px;
+	border-radius: 50%;
+}
+
+.notifList{
+	font-size: 13px;
+	max-width:300px;
+	width:100%;
+}
+
+.notifList>div{
+	padding:8px;
+	cursor: pointer;
+}
+
+.notifList>div + div{
+	border-top: 1px solid lightgray;
+}
+
+.noNotifRightNow{
+	font-size: 13px;
+	max-width:300px;
+	width:100%;
+}
+
+.btnWrapper{
+	display: flex;
+	justify-content: center;
+	margin-top:20px;
+}
+
+@media (max-width: 768px){
+	.navbar .nav{
+		display: none;
+	}
+	.navbar .hamburger{
+		display: block;
+	}
+
+	.navbar .sidebar{
+		display: flex;
+	}
+}
+
+@media (max-width: 436px){
+	.nav-search{
+		display: none;
+	}
+}
