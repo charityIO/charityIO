@@ -1,9 +1,9 @@
 import React from 'react'
-import './CardContainer.css'
+import styles from './CardContainer.module.css'
 
 export default function CardContainer({children}) {
 	return (
-		<div className='card-container'>
+		<div className={styles.cardContainer}>
 			{children}
 		</div>
 	)

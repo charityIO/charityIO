@@ -18,32 +18,30 @@ import { Button } from "Components";
 
 import { useDispatch, useSelector } from "react-redux";
 
+import { serverBaseURL } from "Constants";
+
 import Modal from "react-modal";
 
-import { useToasts } from "react-toast-notifications";
+import { CardDesc } from "../";
 
-import {serverBaseURL} from 'Constants'
-
-const customStyles = {
-	content: {
-		top: "50%",
-		left: "50%",
-		right: "auto",
-		bottom: "auto",
-		marginRight: "-50%",
-		transform: "translate(-50%, -50%)",
-		position: "fixed",
-		padding: "40px",
-		borderRadius: "20px",
-		width: "400px",
-	},
+const modalStyles = {
+	top: "50%",
+	left: "50%",
+	right: "auto",
+	bottom: "auto",
+	marginRight: "-50%",
+	transform: "translate(-50%, -50%)",
+	position: "fixed",
+	padding: "40px",
+	borderRadius: "20px",
+	width: "400px",
 };
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
-export default function Card({
-	event: {
+export default function Card({ event, removeEvent, doesOwn }) {
+	const {
 		_id,
 		name,
 		zipcode,
@@ -54,10 +52,7 @@ export default function Card({
 		description,
 		numberOfVolunteersRequired,
 		organizer,
-	},
-	page,
-	removeEvent,
-}) {
+	} = event;
 	const [modalIsOpen, setIsOpen] = React.useState(false);
 	let user = useSelector((state) => state.user);
 	let [modalInfo, setModalInfo] = useState({
@@ -65,17 +60,17 @@ export default function Card({
 		buttons: [],
 	});
 
+	let [customStyles, setCustomStyles] = useState({});
+
 	let iconButtons = [
-		user.role == "charity" && organizer == user.email && (
-			<Link
-				to={`event/${_id}`}
-			>
+		user.role == "charity" && organizer == user.email && doesOwn && (
+			<Link to={`/event/${_id}`}>
 				<IconButton className={`${styles.icon} ${styles.edit}`}>
 					<EditIcon />
 				</IconButton>
 			</Link>
 		),
-		user.role == "charity" && organizer == user.email && (
+		user.role == "charity" && organizer == user.email && doesOwn && (
 			<IconButton
 				className={`${styles.icon} ${styles.delete}`}
 				onClick={(e) => {
@@ -161,8 +156,6 @@ export default function Card({
 
 	let dispatch = useDispatch();
 
-	const { addToast } = useToasts();
-
 	let deleteEvent = () => {
 		axios({
 			method: "post",
@@ -175,7 +168,7 @@ export default function Card({
 			removeEvent && removeEvent(_id);
 			closeModal();
 			let { status, msg, appearance } = res.data;
-			addToast(msg, { appearance });
+			dispatch({ type: "SET_ALERT", payload: { msg, appearance } });
 		});
 	};
 
@@ -213,15 +206,12 @@ export default function Card({
 	return (
 		<div className={styles.card}>
 			<div className={styles.cardImg}>
-				<img
-					src={`${serverBaseURL}/eventImages/${image}`}
-					alt=""
-				/>
+				<img src={`${serverBaseURL}/eventImages/${image}`} alt="" />
 				{numberOfVolunteersRequired == volunteers?.length ? (
 					<div className={styles.numberOfVolunteersFull}>Full</div>
 				) : (
 					<div className={styles.numberOfVolunteersRequired}>
-						{numberOfVolunteersRequired}
+						{numberOfVolunteersRequired - (volunteers?.length || 0)}
 					</div>
 				)}
 			</div>
@@ -229,39 +219,56 @@ export default function Card({
 				<div className={styles.cardInfo}>
 					<h3 className={styles.cardName}>{name}</h3>
 					<p>#{zipcode}</p>
-					<p>{description}</p>
-					{volunteers.length != 0 && (
-						<div className={styles.volunteerWrapper}>
-							{volunteers?.map((volunteer) => (
-								<div className={styles.volunteer}>
-									{volunteer}
-								</div>
-							))}
-						</div>
-					)}
 				</div>
 
 				<div className={styles.cardFooter}>
-					<div className={styles.location}>{start}</div>
+					<div className={styles.date}>{start}</div>
 					<div className={styles.date}>{end}</div>
 				</div>
+
+				<IconButton
+					className={styles.arrowIcon}
+					onClick={(e) => {
+						setModalInfo({
+							event,
+							removeEvent,
+							doesOwn
+						});
+						setCustomStyles({
+							padding: 0,
+							width: "90%",
+							maxWidth: "1080px",
+							maxHeight: "600px",
+							height: "75%",
+						});
+						openModal();
+					}}
+				>
+					<ArrowForwardIcon />
+				</IconButton>
 			</div>
 			{iconButtons.map((btn) => btn)}
 			<Modal
 				isOpen={modalIsOpen}
 				onRequestClose={closeModal}
-				style={customStyles}
+				style={{ content: { ...modalStyles, ...customStyles } }}
 			>
-				<div>
-					{modalInfo.title}
-					<div className={styles.btnWrapper}>
-						{modalInfo.buttons.map(({ text, type, onClick }) => (
-							<Button onClick={onClick} type={type}>
-								{text}
-							</Button>
-						))}
+				{modalInfo.event ? (
+					<CardDesc {...modalInfo}  />
+				) : (
+					<div>
+						{modalInfo.title}
+						<div className={styles.btnWrapper}>
+							{modalInfo.buttons.map(
+								({ text, type, onClick }) => (
+									<Button onClick={onClick} type={type}>
+										{text}
+									</Button>
+								)
+							)}
+						</div>
 					</div>
-				</div>
+				)}
 			</Modal>
 		</div>
 	);

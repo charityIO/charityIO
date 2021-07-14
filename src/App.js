@@ -62,20 +62,18 @@ export default function App() {
 				/>
 
 				<PrivateRoute
-					path="/profile"
+					path="/profile/:id"
 					component={ProfilePage}
 					isAuth={isAuth}
 				/>
 
-				<PublicRoute
+				<Route
 					path="/contact"
 					component={ContactUsPage}
-					isAuth={isAuth}
 				/>
-				<PublicRoute
+				<Route
 					path="/about"
 					component={AboutUsPage}
-					isAuth={isAuth}
 				/>
 			</Router>
 		</ToastProvider>

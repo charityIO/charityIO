@@ -13,12 +13,15 @@ import Select from "react-select";
 
 import {serverBaseURL} from 'Constants'
 
+import {useSelector} from 'react-redux'
+
 export default function AddEventPage(props) {
 	const id = props.match.params?.id;
 
 	const [volunteerOptions, setVolunteerOptions] = useState([]);
 
 	let dispatch = useDispatch();
+	let user = useSelector(state=>state.user)
 
 	let [fields, setFields] = useState({
 		name: "",
@@ -109,7 +112,7 @@ export default function AddEventPage(props) {
 			let { status, msg, appearance } = res.data;
 			dispatch({ type: "SET_ALERT", payload: { msg, appearance } });
 			if (status && id) {
-				props.history.push("/profile");
+				props.history.push(`/profile/${user._id}`);
 			} else if (status) {
 				setFields({
 					name: "",

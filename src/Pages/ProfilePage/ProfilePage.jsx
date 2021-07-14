@@ -20,11 +20,15 @@ import { IconButton } from "@material-ui/core";
 
 import { serverBaseURL } from "Constants";
 
-export default function ProfilePage() {
+export default function ProfilePage(props) {
 	const [events, setEvents] = useState([]);
 
-	const user = useSelector((state) => state.user);
+	const userLoggedIn = useSelector((state) => state.user);
+	let [user, setUser] = useState({});
 	const [isEdit, setIsEdit] = useState(false);
+
+	let notification = props?.location?.state?.notification;
+	const id = props?.match?.params?.id;
 
 	let [fields, setFields] = useState({
 		fname: user.fname,
@@ -32,7 +36,9 @@ export default function ProfilePage() {
 		email: user.email,
 		phoneNo: user.phoneNo,
 		image: user.profileImg,
-		imgUrl: `${serverBaseURL}/profileImages/${user.profileImg}`,
+		imgUrl: user.profileImg
+			? `${serverBaseURL}/profileImages/${user.profileImg}`
+			: undefined,
 	});
 
 	let imageOnChange = (e) => {
@@ -50,19 +56,39 @@ export default function ProfilePage() {
 
 	useEffect(() => {
 		axios({
-			url: "/user/myEvents",
+			url: "/user/profile",
+			method: "post",
 			headers: {
 				Authorization: localStorage.getItem("token"),
 			},
+			data: { id },
 		}).then((res) => {
 			if (res.data.status) {
-				setEvents(res.data.events);
+				setUser(res.data.user);
+				axios({
+					url: "/user/myEvents",
+					method: "post",
+					data: { id },
+					headers: {
+						Authorization: localStorage.getItem("token"),
+					},
+				}).then((res) => {
+					if (res.data.status) {
+						setEvents(res.data.events);
+					} else {
+						let { msg, appearance } = res.data;
+						dispatch({
+							type: "SET_ALERT",
+							payload: { msg, appearance },
+						});
+					}
+				});
 			} else {
 				let { msg, appearance } = res.data;
 				dispatch({ type: "SET_ALERT", payload: { msg, appearance } });
 			}
 		});
-	}, []);
+	}, [id]);
 
 	let editProfile = (e) => {
 		e.preventDefault();
@@ -90,6 +116,24 @@ export default function ProfilePage() {
 		});
 	};
 
+	let handleVolunteeringRequest = (e) => {
+		axios({
+			method: "post",
+			url: "/user/handleVolunteeringRequest",
+			data: {
+				notificationId: notification._id,
+				action: e.target.name,
+			},
+			headers: {
+				Authorization: localStorage.getItem("token"),
+			},
+		}).then((res) => {
+			let { msg, appearance } = res.data;
+			dispatch({ type: "SET_ALERT", payload: { msg, appearance } });
+			props.history.push("/home");
+		});
+	};
+
 	return (
 		<Layout container>
 			<div className={styles.profileSectionWrapper}>
@@ -100,7 +144,7 @@ export default function ProfilePage() {
 								src={
 									user?.profileImg
 										? `${serverBaseURL}/profileImages/${user.profileImg}`
-										: "default.jpg"
+										: "/defaultProfile.png"
 								}
 								className={styles.profileImage}
 							/>
@@ -144,7 +188,7 @@ export default function ProfilePage() {
 											src={
 												fields.imgUrl
 													? fields.imgUrl
-													: "default.jpg"
+													: "/defaultProfile.png"
 											}
 										/>
 									</label>
@@ -207,15 +251,34 @@ export default function ProfilePage() {
 						</div>
 					</form>
 				)}
-				<IconButton
-					className={styles.floatingIcon}
-					onClick={(e) => setIsEdit(!isEdit)}
-				>
-					{isEdit ? <CloseIcon /> : <EditIcon />}
-				</IconButton>
+				{props?.location?.state?.notification ? (
+					<div className={styles.btnWrapper}>
+						<Button
+							type="success"
+							onClick={handleVolunteeringRequest}
+							name="yes"
+						>
+							Accept
+						</Button>
+						<Button
+							type="danger"
+							onClick={handleVolunteeringRequest}
+							name="deny"
+						>
+							Deny
+						</Button>
+					</div>
+				) : (
+					<IconButton
+						className={styles.floatingIcon}
+						onClick={(e) => setIsEdit(!isEdit)}
+					>
+						{isEdit ? <CloseIcon /> : <EditIcon />}
+					</IconButton>
+				)}
 			</div>
 			<div className={styles.yourItems}>
-				{events.length == 0 ? (
+				{events.length == 0 && userLoggedIn._id == id ? (
 					user.volunteer == "charity" ? (
 						<p className={styles.noEventsPara}>
 							Looks like you havent added any events. Want to{" "}
@@ -235,6 +298,9 @@ export default function ProfilePage() {
 								event={event}
 								key={event._id}
 								removeEvent={removeEvent}
+								doesOwn={
+									userLoggedIn._id == props.match.params.id
+								}
 							/>
 						))}
 					</CardContainer>

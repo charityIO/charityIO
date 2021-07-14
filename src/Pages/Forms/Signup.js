@@ -80,8 +80,7 @@ export default function Signup(props) {
 			fields.fname &&
 			fields.lname &&
 			fields.email &&
-			fields.pwd &&
-			fields.image
+			fields.pwd
 		) {
 			setSubmitDisabled(false);
 		} else {
@@ -206,7 +205,7 @@ export default function Signup(props) {
 											src={
 												fields.imgUrl
 													? fields.imgUrl
-													: "default.jpg"
+													: "defaultProfile.png"
 											}
 										/>
 									</label>

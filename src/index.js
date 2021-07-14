@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import {serverBaseURL} from 'Constants'
-console.log(serverBaseURL)
 
 /*
 Setting up the baseURL of the server where the requests will be sent to

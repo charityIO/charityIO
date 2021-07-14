@@ -1,9 +1,15 @@
+.navbarFiller{
+	height: 70px;
+}
+
 .navbar{
 	background: var(--primary);
 	height: 70px;
 	font-size: 14px;
 	color: white;
-	position: relative;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
 }
 
 .navbar .navWrapper{
@@ -38,6 +44,10 @@
 	cursor: pointer;
 	display: flex;
 	align-items: center;
+}
+
+.menuItem p{
+	margin-left: 5px;
 }
 
 .navbar a{
@@ -120,7 +130,7 @@
 	margin-top:20px;
 }
 
-@media (max-width: 768px){
+@media (max-width: 975px){
 	.navbar .nav{
 		display: none;
 	}

@@ -1,19 +1,13 @@
-.card{
-	min-height: 380px;
+.cardDescWrapper{
 	border-radius: 10px;
-	box-shadow: 3px 3px 7px lightgray;
 	position: relative;
-	transition: 0.6s;
 	cursor: pointer;
 	background-color: white;
+	padding:20px;
 }
 
-.card:hover{
-	transform: translateY(-3px);
-}
-
-.card .cardImg{
-	height: 200px;
+.cardDescWrapper .cardImg{
+	height: 350px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -21,12 +15,12 @@
 	padding:20px;
 }
 
-.card img{
+.cardDescWrapper img{
 	max-width: 100%;
 	max-height: 100%;
 }
 
-.card .cardDesc{
+.cardDescWrapper .cardDesc{
 	padding:20px 20px 10px 20px;
 	display: flex;
 	flex-direction: column;
@@ -36,49 +30,43 @@
 	font-size: 14px;
 }
 
-.card .cardInfo{
-	width:85%;
+.cardDesc p{
+	font-size: 16px;
 }
 
-.card .cardName{
-	font-size: 18px;
+.cardDescWrapper .cardFooter{
+	margin-top:10px;
+	font-size: 15px;
 }
 
-.card .cardFooter{
-	display: flex;
-	justify-content: space-between;
-	font-size: 12px;
-	color:#888;
-}
-
-.card .icon{
+.cardDescWrapper .icon{
 	position: absolute;
 }
 
-.card .arrow{
+.cardDescWrapper .arrow{
 	top:10px;
-	right:6px;
+	right:5px;
 }
 
-.card .edit,.card .add{
-	top:48px;
-	right:6px;
+.cardDescWrapper .edit,.cardDescWrapper .add{
+	top:45px;
+	right:5px;
 }
 
-.card .delete{
+.cardDescWrapper .delete{
 	top:90px;
-	right:6px;
+	right:5px;
 }
 
-.card .deleteIcon{
+.cardDescWrapper .deleteIcon{
 	color:red;
 }
 
-.card .addIcon{
+.cardDescWrapper .addIcon{
 	color:#1976d2;
 }
 
-.card .category{
+.cardDescWrapper .category{
 	position: absolute;
 	top:0;
 	left:0;
@@ -122,6 +110,7 @@
 	display: flex;
 	width:100%;
 	flex-wrap: wrap;
+	margin-top:10px;
 }
 
 .volunteer{
@@ -129,7 +118,7 @@
 	border-radius: 10px;
 	background-color: purple;
 	color:white;
-	font-size: 11px;
+	font-size: 13px;
 }
 
 .volunteer+.volunteer{
@@ -175,5 +164,5 @@
 .arrowIcon{
 	position: absolute !important;
 	top:10px;
-	right:6px;
+	right:10px;
 }

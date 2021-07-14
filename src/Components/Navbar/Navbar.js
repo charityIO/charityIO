@@ -3,14 +3,19 @@ import { Container, Button } from "../";
 import { Redirect, Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
-import MenuIcon from "@material-ui/icons/Menu";
 import { IconButton, Badge } from "@material-ui/core";
+
+import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import StarIcon from "@material-ui/icons/Star";
 import AddIcon from "@material-ui/icons/Add";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EventIcon from "@material-ui/icons/Event";
+import InfoIcon from "@material-ui/icons/Info";
+import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
+import PersonIcon from "@material-ui/icons/Person";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 import Popover from "@material-ui/core/Popover";
 
@@ -26,29 +31,9 @@ import Divider from "@material-ui/core/Divider";
 
 import axios from "axios";
 
-import Modal from "react-modal";
-
-import { useToasts } from "react-toast-notifications";
-
 import { serverBaseURL } from "Constants";
 
-const customStyles = {
-	content: {
-		top: "50%",
-		left: "50%",
-		right: "auto",
-		bottom: "auto",
-		marginRight: "-50%",
-		transform: "translate(-50%, -50%)",
-		position: "fixed",
-		padding: "40px",
-		borderRadius: "20px",
-		width: "400px",
-	},
-};
-
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement("#root");
+import { useHistory } from "react-router-dom";
 
 export default function Navbar() {
 	let [redirect, setRedirect] = useState(false);
@@ -59,23 +44,13 @@ export default function Navbar() {
 	let [notificationSelected, setNotificationSelected] = useState(null);
 
 	let dispatch = useDispatch();
-	const { addToast } = useToasts();
+	let history = useHistory();
 
 	let [sidebarOpen, setSidebarOpen] = useState(false);
 
 	let clickHandler = () => {
 		setSidebarOpen(!sidebarOpen);
 	};
-
-	const [modalIsOpen, setIsOpen] = React.useState(false);
-
-	function openModal() {
-		setIsOpen(true);
-	}
-
-	function closeModal() {
-		setIsOpen(false);
-	}
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -90,6 +65,91 @@ export default function Navbar() {
 
 	const open = Boolean(anchorEl);
 	const id = open ? "simple-popover" : undefined;
+
+	let menuItems = user ? (
+		<>
+			{user?.role == "charity" && (
+				<div>
+					<Link to="/addEvent">
+						<EventIcon /> <p>Add An Event</p>
+					</Link>
+				</div>
+			)}
+			<div>
+				<Link to={`/profile/${user._id}`}>
+					<img
+						src={
+							user?.profileImg
+								? `${serverBaseURL}/profileImages/${user.profileImg}`
+								: "/defaultProfile.png"
+						}
+						className={styles.profileImage}
+					/>
+					<p>Profile</p>
+				</Link>
+			</div>
+			<div className={styles.menuItem} onClick={handleClick}>
+				<Badge
+					color="secondary"
+					invisible={notificationsNumber == 0}
+					badgeContent={notificationsNumber}
+				>
+					<NotificationsIcon />
+				</Badge>
+				<p>Notifications</p>
+			</div>
+			<div>
+				<Link to="/about">
+					<InfoIcon />
+					<p>About Us</p>
+				</Link>
+			</div>
+			<div>
+				<Link to="/contact">
+					<PermContactCalendarIcon />
+					<p>Contact Us</p>
+				</Link>
+			</div>
+			<div
+				className={styles.menuItem}
+				onClick={(e) => {
+					localStorage.removeItem("token");
+					dispatch({ type: "LOGOUT" });
+					setRedirect(true);
+				}}
+			>
+				<ExitToAppIcon />
+				<p>Logout</p>
+			</div>
+		</>
+	) : (
+		<>
+			<div>
+				<Link to="/about">
+					<InfoIcon />
+					<p>About Us</p>
+				</Link>
+			</div>
+			<div>
+				<Link to="/contact">
+					<PermContactCalendarIcon />
+					<p>Contact Us</p>
+				</Link>
+			</div>
+			<div>
+				<Link to="/signin">
+					<PersonIcon />
+					<p>Signin</p>
+				</Link>
+			</div>
+			<div>
+				<Link to="/signup">
+					<PersonAddIcon />
+					<p>Signup</p>
+				</Link>
+			</div>
+		</>
+	);
 
 	useEffect(() => {
 		if (user) {
@@ -116,25 +176,8 @@ export default function Navbar() {
 		});
 	};
 
-	let handleVolunteeringRequest = (e) => {
-		axios({
-			method: "post",
-			url: "/user/handleVolunteeringRequest",
-			data: {
-				notificationId: notificationSelected._id,
-				action: e.target.name,
-			},
-			headers: {
-				Authorization: localStorage.getItem("token"),
-			},
-		}).then((res) => {
-			closeModal();
-			let { msg, appearance } = res.data;
-			addToast(msg, { appearance });
-		});
-	};
-
 	return (
+	<>	
 		<div className={styles.navbar}>
 			<Container className={styles.navWrapper}>
 				<div className={styles.logo}>
@@ -142,77 +185,7 @@ export default function Navbar() {
 						<Link to={user ? "/home" : "/"}>Charity.io</Link>
 					</h2>
 				</div>
-				<div className={styles.nav}>
-					{user ? (
-						<>
-							{user?.role == "charity" && (
-								<div>
-									<Link to="/addEvent">
-										<EventIcon /> <p>Add An Event</p>
-									</Link>
-								</div>
-							)}
-							<div>
-								<Link to="/profile">
-									<img
-										src={
-											user?.profileImg
-												? `${serverBaseURL}/profileImages/${user.profileImg}`
-												: "default.jpg"
-										}
-										className={styles.profileImage}
-									/>
-									<p>Profile</p>
-								</Link>
-							</div>
-							<div
-								className={styles.menuItem}
-								onClick={handleClick}
-							>
-								<Badge
-									color="secondary"
-									invisible={notificationsNumber == 0}
-									badgeContent={notificationsNumber}
-								>
-									<NotificationsIcon />
-								</Badge>
-							</div>
-							<div
-								className={styles.logout}
-								onClick={(e) => {
-									localStorage.removeItem("token");
-									dispatch({ type: "LOGOUT" });
-									setRedirect(true);
-								}}
-							>
-								<ExitToAppIcon />
-							</div>
-						</>
-					) : (
-						<>
-							<div>
-								<Link to="/about">
-									<p>About Us</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/contact">
-									<p>Contact Us</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/signin">
-									<p>Signin</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/signup">
-									<p>Signup</p>
-								</Link>
-							</div>
-						</>
-					)}
-				</div>
+				<div className={styles.nav}>{menuItems}</div>
 				<IconButton className={styles.hamburger} onClick={clickHandler}>
 					{sidebarOpen ? (
 						<CloseIcon className={styles.menuIcon} />
@@ -228,79 +201,7 @@ export default function Navbar() {
 					[styles.sidebarOpen]: sidebarOpen,
 				})}
 			>
-				<div>
-					{user ? (
-						<>
-							{user?.role == "charity" && (
-								<div>
-									<Link to="/addEvent">
-										<EventIcon /> <p>Add An Event</p>
-									</Link>
-								</div>
-							)}
-							<div>
-								<Link to="/profile">
-									<img
-										src={
-											user?.profileImg
-												? `${serverBaseURL}/profileImages/${user.profileImg}`
-												: "default.jpg"
-										}
-										className={styles.profileImage}
-									/>
-									<p>Profile</p>
-								</Link>
-							</div>
-							<div
-								className={styles.menuItem}
-								onClick={handleClick}
-							>
-								<Badge
-									color="secondary"
-									invisible={notificationsNumber == 0}
-									badgeContent={notificationsNumber}
-								>
-									<NotificationsIcon />
-								</Badge>
-								<p>Notifications</p>
-							</div>
-							<div
-								className={styles.logout}
-								onClick={(e) => {
-									localStorage.removeItem("token");
-									dispatch({ type: "LOGOUT" });
-									setRedirect(true);
-								}}
-							>
-								<ExitToAppIcon />
-								<p>Logout</p>
-							</div>
-						</>
-					) : (
-						<>
-							<div>
-								<Link to="/about">
-									<p>About Us</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/contact">
-									<p>Contact Us</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/signin">
-									<p>Signin</p>
-								</Link>
-							</div>
-							<div>
-								<Link to="/signup">
-									<p>Signup</p>
-								</Link>
-							</div>
-						</>
-					)}
-				</div>
+				<div>{menuItems}</div>
 			</div>
 			<Popover
 				id={id}
@@ -330,18 +231,17 @@ export default function Navbar() {
 										: "initial",
 								}}
 								onClick={(e) => {
-									!notification.catered &&
+									let shouldHandle =
+										!notification.catered &&
 										notification.type ==
-											"VOLUNTEERING_REQUEST" &&
+											"VOLUNTEERING_REQUEST";
+									if (shouldHandle) {
 										handleClose();
-									!notification.catered &&
-										notification.type ==
-											"VOLUNTEERING_REQUEST" &&
-										setNotificationSelected(notification);
-									!notification.catered &&
-										notification.type ==
-											"VOLUNTEERING_REQUEST" &&
-										openModal();
+										history.push({
+											pathname: `/profile/${notification.volunteerId}`,
+											state: { notification },
+										});
+									}
 								}}
 							>
 								{notification.message}
@@ -350,32 +250,10 @@ export default function Navbar() {
 					</div>
 				)}
 			</Popover>
-
-			<Modal
-				isOpen={modalIsOpen}
-				onRequestClose={closeModal}
-				style={customStyles}
-			>
-				<div>
-					Do you want to accept this volunteering request?
-					<div className={styles.btnWrapper}>
-						<Button
-							type="success"
-							onClick={handleVolunteeringRequest}
-							name="yes"
-						>
-							Yes
-						</Button>
-						<Button
-							type="danger"
-							onClick={handleVolunteeringRequest}
-							name="deny"
-						>
-							Deny
-						</Button>
-					</div>
-				</div>
-			</Modal>
 		</div>
+		<div className={styles.navbarFiller}>
+			
+		</div>
+	</>	
 	);
 }

@@ -1,5 +1,6 @@
 export {default as Card} from './Card/Card'
 export {default as CardContainer} from './CardContainer/CardContainer'
+export {default as CardDesc} from './CardDesc/CardDesc'
 
 export {default as Container} from './Container/Container'
 
